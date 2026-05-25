@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Allumalla Yaswanth — Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --hw: #00e5ff;
+    --sw: #ff6b35;
+    --text: #e8e8f0;
+    --muted: #6b6b8a;
+    --accent: #7c3aed;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+  .nav-logo span { color: var(--hw); }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent);
+  }
+
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+  }
+  .orb-1 {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,229,255,0.08), transparent 70%);
+    top: -100px; right: -100px;
+    animation: drift1 8s ease-in-out infinite;
+  }
+  .orb-2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(255,107,53,0.06), transparent 70%);
+    bottom: 0; left: 10%;
+    animation: drift2 10s ease-in-out infinite;
+  }
+  @keyframes drift1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,40px)} }
+  @keyframes drift2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(20px,-30px)} }
+
+  .hero-content { position: relative; max-width: 900px; }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: var(--mono); font-size: 0.72rem;
+    color: var(--hw); letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid rgba(0,229,255,0.2);
+    padding: 0.35rem 0.8rem; border-radius: 2px;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease forwards;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--hw);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero-name {
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero-name .line2 {
+    display: block;
+    background: linear-gradient(135deg, var(--hw) 0%, var(--accent) 50%, var(--sw) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 540px;
+    line-height: 1.7;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-badges {
+    display: flex; flex-wrap: wrap; gap: 0.75rem;
+    margin-top: 2rem;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .badge {
+    font-family: var(--mono); font-size: 0.7rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+  }
+  .badge-hw { background: rgba(0,229,255,0.08); color: var(--hw); border: 1px solid rgba(0,229,255,0.2); }
+  .badge-sw { background: rgba(255,107,53,0.08); color: var(--sw); border: 1px solid rgba(255,107,53,0.2); }
+
+  .hero-cta {
+    display: flex; gap: 1rem; margin-top: 3rem;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: var(--mono); font-size: 0.78rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.9rem 1.8rem;
+    border-radius: 2px; cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+  }
+  .btn-primary {
+    background: var(--hw); color: #000;
+    border: none;
+  }
+  .btn-primary:hover { background: #33ecff; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,229,255,0.25); }
+  .btn-secondary {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--muted); transform: translateY(-2px); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 7rem 3rem; }
+  .section-label {
+    font-family: var(--mono); font-size: 0.68rem;
+    color: var(--hw); letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .section-label::after {
+    content: ''; flex: 1; max-width: 60px;
+    height: 1px; background: rgba(0,229,255,0.3);
+  }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 3.5rem;
+    line-height: 1.1;
+  }
+
+  /* ── DUAL TRACK ── */
+  .dual-track {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    max-width: 1100px;
+  }
+  .track {
+    padding: 3rem;
+    background: var(--surface);
+    position: relative; overflow: hidden;
+  }
+  .track::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+  }
+  .track-hw::before { background: linear-gradient(90deg, var(--hw), transparent); }
+  .track-sw::before { background: linear-gradient(90deg, var(--sw), transparent); }
+
+  .track-icon {
+    font-size: 1.5rem; margin-bottom: 1rem;
+  }
+  .track-name {
+    font-family: var(--mono); font-size: 0.7rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .track-hw .track-name { color: var(--hw); }
+  .track-sw .track-name { color: var(--sw); }
+
+  .track-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem; }
+  .track-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 1.5rem; }
+
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag {
+    font-family: var(--mono); font-size: 0.65rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+  }
+  .track-hw .skill-tag { background: rgba(0,229,255,0.06); color: rgba(0,229,255,0.7); border: 1px solid rgba(0,229,255,0.15); }
+  .track-sw .skill-tag { background: rgba(255,107,53,0.06); color: rgba(255,107,53,0.7); border: 1px solid rgba(255,107,53,0.15); }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--surface); }
+  .exp-list { display: flex; flex-direction: column; gap: 0; max-width: 900px; }
+  .exp-item {
+    display: grid; grid-template-columns: 180px 1fr;
+    gap: 2rem;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .exp-item:last-child { border-bottom: none; }
+  .exp-meta { padding-top: 0.2rem; }
+  .exp-date {
+    font-family: var(--mono); font-size: 0.68rem;
+    color: var(--muted); letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+  .exp-type {
+    display: inline-block;
+    font-family: var(--mono); font-size: 0.6rem;
+    padding: 0.2rem 0.6rem; border-radius: 2px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .type-hw { background: rgba(0,229,255,0.08); color: var(--hw); }
+  .type-sw { background: rgba(255,107,53,0.08); color: var(--sw); }
+
+  .exp-role { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.25rem; }
+  .exp-company { color: var(--muted); font-size: 0.85rem; margin-bottom: 1rem; font-family: var(--mono); }
+  .exp-points { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .exp-points li {
+    color: var(--muted); font-size: 0.875rem; line-height: 1.65;
+    padding-left: 1.25rem; position: relative;
+  }
+  .exp-points li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--hw); font-size: 0.75rem;
+  }
+  .exp-points.sw li::before { color: var(--sw); }
+
+  /* ── PROJECTS ── */
+  .projects-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .project-card {
+    background: var(--surface);
+    padding: 2.5rem;
+    position: relative; overflow: hidden;
+    transition: background 0.25s;
+    cursor: default;
+  }
+  .project-card:hover { background: #14141f; }
+  .project-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .project-card:hover::before { transform: scaleX(1); }
+  .card-hw::before { background: var(--hw); }
+  .card-sw::before { background: var(--sw); }
+
+  .project-num {
+    font-family: var(--mono); font-size: 0.65rem;
+    color: var(--border); letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+    display: inline-block; padding: 0.2rem 0.5rem;
+  }
+  .project-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; line-height: 1.3; }
+  .project-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.65; margin-bottom: 1.5rem; }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .stack-tag {
+    font-family: var(--mono); font-size: 0.6rem;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 0.2rem 0.5rem; border-radius: 2px;
+  }
+
+  /* ── CERTIFICATIONS ── */
+  #certifications { background: var(--surface); }
+  .certs-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem; max-width: 1100px;
+  }
+  .cert-item {
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    display: flex; gap: 1rem; align-items: flex-start;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .cert-item:hover { border-color: var(--muted); transform: translateY(-2px); }
+  .cert-icon { font-size: 1.1rem; flex-shrink: 0; padding-top: 0.1rem; }
+  .cert-name { font-size: 0.82rem; font-weight: 500; line-height: 1.4; margin-bottom: 0.2rem; }
+  .cert-org { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); }
+
+  /* ── CONTACT ── */
+  #contact {
+    text-align: center;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 7rem 3rem;
+  }
+  #contact .section-label { justify-content: center; }
+  #contact .section-label::after { display: none; }
+  #contact .section-title { margin-bottom: 1rem; }
+  #contact .section-title::after { display: none; }
+  .contact-sub { color: var(--muted); margin-bottom: 3rem; font-size: 1rem; }
+  .contact-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+  .contact-link {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-family: var(--mono); font-size: 0.78rem;
+    color: var(--text); text-decoration: none;
+    padding: 0.9rem 1.8rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+    transition: all 0.25s;
+  }
+  .contact-link:hover { border-color: var(--hw); color: var(--hw); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 3rem;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--bg);
+  }
+  footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section, .hero { padding: 5rem 1.5rem 3rem; }
+    .dual-track { grid-template-columns: 1fr; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.75rem; }
+    .exp-meta { display: flex; gap: 1rem; align-items: center; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+
+  /* ── STAT ROW ── */
+  .stats-row {
+    display: flex; gap: 4rem; margin-top: 4rem;
+    padding-top: 3rem; border-top: 1px solid var(--border);
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+  .stat-num {
+    font-size: 2.5rem; font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--hw), var(--sw));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label {
+    font-family: var(--mono); font-size: 0.65rem;
+    color: var(--muted); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-top: 0.25rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">AY<span>_</span>PORTFOLIO</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#certifications">Certifications</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="about">
+  <div class="hero-grid"></div>
+  <div class="orb-1 hero-orb"></div>
+  <div class="orb-2 hero-orb"></div>
+  <div class="hero-content">
+    <div class="hero-tag">BTech ECE · Bengaluru · Available 2027</div>
+    <h1 class="hero-name">
+      Allumalla
+      <span class="line2">Yaswanth</span>
+    </h1>
+    <p class="hero-subtitle">
+      Electronics &amp; Communication Engineer bridging the gap between silicon and software — from VLSI design and FPGA processors to full-stack platforms and data analytics.
+    </p>
+    <div class="hero-badges">
+      <span class="badge badge-hw">RTL Design</span>
+      <span class="badge badge-hw">VLSI / FPGA</span>
+      <span class="badge badge-hw">Embedded Systems</span>
+      <span class="badge badge-sw">Full-Stack Dev</span>
+      <span class="badge badge-sw">Data Analytics</span>
+      <span class="badge badge-sw">Machine Learning</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects ↓</a>
+      <a href="mailto:yaswantha370@gmail.com" class="btn btn-secondary">Get In Touch</a>
+    </div>
+    <div class="stats-row">
+      <div>
+        <div class="stat-num">8.72</div>
+        <div class="stat-label">GPA / 10</div>
+      </div>
+      <div>
+        <div class="stat-num">4+</div>
+        <div class="stat-label">Internships</div>
+      </div>
+      <div>
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div>
+        <div class="stat-num">8+</div>
+        <div class="stat-label">Certifications</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DUAL TRACK -->
+<section id="skills">
+  <div class="section-label">Expertise</div>
+  <h2 class="section-title">Two Tracks, One Engineer</h2>
+  <div class="dual-track reveal">
+    <div class="track track-hw">
+      <div class="track-icon">⚡</div>
+      <div class="track-name">Hardware Track</div>
+      <div class="track-title">Silicon to System</div>
+      <div class="track-desc">
+        From RTL design in Verilog/VHDL to physical implementation using Cadence Virtuoso and Synopsys tools. Specializing in VLSI, FPGA-based processors, and embedded system design.
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">Verilog / VHDL</span>
+        <span class="skill-tag">SystemVerilog</span>
+        <span class="skill-tag">Cadence Virtuoso</span>
+        <span class="skill-tag">Synopsys DC</span>
+        <span class="skill-tag">Vivado / ModelSim</span>
+        <span class="skill-tag">MATLAB</span>
+        <span class="skill-tag">Embedded C</span>
+        <span class="skill-tag">PCB Design</span>
+        <span class="skill-tag">IoT / Arduino</span>
+      </div>
+    </div>
+    <div class="track track-sw">
+      <div class="track-icon">◈</div>
+      <div class="track-name">Software Track</div>
+      <div class="track-title">Data to Deployment</div>
+      <div class="track-desc">
+        Building full-stack SaaS platforms, interactive dashboards, and data analytics pipelines. Comfortable across the entire stack from database to React UI.
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">Python / C++</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">React.js</span>
+        <span class="skill-tag">NumPy / Pandas</span>
+        <span class="skill-tag">PostgreSQL / MongoDB</span>
+        <span class="skill-tag">Machine Learning</span>
+        <span class="skill-tag">Gen AI</span>
+        <span class="skill-tag">Power BI / DAX</span>
+        <span class="skill-tag">REST APIs</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Experience</div>
+  <h2 class="section-title">Where I've Worked</h2>
+  <div class="exp-list">
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-date">Mar – Apr 2026</div>
+        <span class="exp-type type-hw">Hardware</span>
+      </div>
+      <div>
+        <div class="exp-role">Internet of Things Intern</div>
+        <div class="exp-company">Emertxe Technologies · Remote</div>
+        <ul class="exp-points">
+          <li>Designed an Industrial Monitoring System using IoT for real-time tracking of industrial parameters via sensors with automated data transmission.</li>
+          <li>Gained hands-on experience in C programming, microcontrollers, sensor interfacing, and embedded system design for IoT applications.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-date">Dec 2025 – Jan 2026</div>
+        <span class="exp-type type-sw">Software</span>
+      </div>
+      <div>
+        <div class="exp-role">Data Visualization Intern</div>
+        <div class="exp-company">Infosys Springboard · Remote</div>
+        <ul class="exp-points sw">
+          <li>Built a data analytics solution integrating EDA, KPI tracking, trend analysis, and business intelligence techniques on social media data.</li>
+          <li>Used Pandas and NumPy for data preprocessing, handling missing values and leveraging ML to improve analysis reliability.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-date">Oct – Dec 2025</div>
+        <span class="exp-type type-hw">Hardware</span>
+      </div>
+      <div>
+        <div class="exp-role">ISWDP Trainee</div>
+        <div class="exp-company">Samsung × Synopsys (ISWDP) · Remote</div>
+        <ul class="exp-points">
+          <li>Completed India Semiconductor Workforce Development Program — covering semiconductor material characterization, IV/CV measurements, resistivity, and wafer-level testing.</li>
+          <li>Analyzed MOSFET parameters including breakdown voltage, leakage current, saturation characteristics, and Rds(on) measurements.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-date">Aug – Sep 2025</div>
+        <span class="exp-type type-sw">Software</span>
+      </div>
+      <div>
+        <div class="exp-role">Frontend Web Development Intern</div>
+        <div class="exp-company">IBM SkillsBuild · Remote</div>
+        <ul class="exp-points sw">
+          <li>Developed responsive web pages with HTML, CSS, JavaScript, and React; integrated APIs and improved UI/UX with AI algorithms.</li>
+          <li>Implemented JWT-based authentication, RBAC, and multi-organization access control — reducing unauthorized access issues by 40%.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">Projects</div>
+  <h2 class="section-title">Selected Work</h2>
+  <div class="projects-grid">
+
+    <div class="project-card card-hw reveal">
+      <div class="project-num">HW — 01</div>
+      <div class="project-title">Digital Low Drop-Out Regulator (DLDO)</div>
+      <div class="project-desc">Designed and implemented a DLDO using Cadence Virtuoso (45nm CMOS) and MATLAB/Simulink. Achieved PSRR = 20 dB, Quiescent Current = 2.66 mA, and stable transient response for battery-efficient VLSI applications.</div>
+      <div class="project-stack">
+        <span class="stack-tag">Cadence Virtuoso</span>
+        <span class="stack-tag">45nm CMOS</span>
+        <span class="stack-tag">MATLAB/Simulink</span>
+        <span class="stack-tag">Low-Power VLSI</span>
+      </div>
+    </div>
+
+    <div class="project-card card-hw reveal">
+      <div class="project-num">HW — 02</div>
+      <div class="project-title">5-Stage Pipelined MIPS Processor with ML Branch Prediction</div>
+      <div class="project-desc">FPGA implementation of a pipelined MIPS processor with forwarding and stalling for hazard resolution, plus an ML-based branch predictor. Verified with Vivado, ModelSim, and Xilinx FPGA to reduce pipeline stalls.</div>
+      <div class="project-stack">
+        <span class="stack-tag">Verilog</span>
+        <span class="stack-tag">Vivado</span>
+        <span class="stack-tag">ModelSim</span>
+        <span class="stack-tag">Xilinx FPGA</span>
+        <span class="stack-tag">ML</span>
+      </div>
+    </div>
+
+    <div class="project-card card-sw reveal">
+      <div class="project-num">SW — 01</div>
+      <div class="project-title">AI-Enhanced Full-Stack SaaS Platform</div>
+      <div class="project-desc">Full-stack SaaS with authenticated user workflows, credit-based usage, and subscription billing via Stripe. Responsive UI components and scalable RESTful APIs built for production-ready deployment.</div>
+      <div class="project-stack">
+        <span class="stack-tag">React.js</span>
+        <span class="stack-tag">REST API</span>
+        <span class="stack-tag">Stripe</span>
+        <span class="stack-tag">Gen AI</span>
+        <span class="stack-tag">Auth / RBAC</span>
+      </div>
+    </div>
+
+    <div class="project-card card-sw reveal">
+      <div class="project-num">SW — 02</div>
+      <div class="project-title">Banking Risk Analytics Dashboard</div>
+      <div class="project-desc">Interactive dashboard visualizing KPIs like deposits, loans, and client statistics. Automated data refresh with Power Query and DAX measures, improving insight generation efficiency by 90% with 95% accuracy.</div>
+      <div class="project-stack">
+        <span class="stack-tag">Power BI</span>
+        <span class="stack-tag">DAX</span>
+        <span class="stack-tag">Power Query</span>
+        <span class="stack-tag">Data Analytics</span>
+      </div>
+    </div>
+
+    <div class="project-card card-sw reveal">
+      <div class="project-num">SW — 03</div>
+      <div class="project-title">Finacle Sales Analytics Dashboard</div>
+      <div class="project-desc">Specialized dashboard for Finacle analysis providing accurate sales forecasting and client data visualization with 90% accuracy and 70% productivity improvement over previous solutions.</div>
+      <div class="project-stack">
+        <span class="stack-tag">Data Visualization</span>
+        <span class="stack-tag">Forecasting</span>
+        <span class="stack-tag">Business Intelligence</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-label">Certifications</div>
+  <h2 class="section-title">Credentials</h2>
+  <div class="certs-grid">
+    <div class="cert-item reveal">
+      <div class="cert-icon">⚡</div>
+      <div>
+        <div class="cert-name">PCB Design and Development for Industry Product</div>
+        <div class="cert-org">Indian Tech Keys</div>
+      </div>
+    </div>
+    <div class="cert-item reveal">
+      <div class="cert-icon">⚡</div>
+      <div>
+        <div class="cert-name">CMOS Digital VLSI Design</div>
+        <div class="cert-org">NPTEL</div>
+      </div>
+    </div>
+    <div class="cert-item reveal">
+      <div class="cert-icon">⚡</div>
+      <div>
+        <div class="cert-name">Introduction to Electronic Engineering</div>
+        <div class="cert-org">University of Birmingham</div>
+      </div>
+    </div>
+    <div class="cert-item reveal">
+      <div class="cert-icon">⚡</div>
+      <div>
+        <div class="cert-name">Basic TCAD and Simulation Analysis</div>
+        <div class="cert-org">Synopsys (IISc)</div>
+      </div>
+    </div>
+    <div class="cert-item reveal">
+      <div class="cert-icon">◈</div>
+      <div>
+        <div class="cert-name">Data Visualization: Empowering Business with Effective Insights</div>
+        <div class="cert-org">TATA (Forage)</div>
+      </div>
+    </div>
+    <div class="cert-item reveal">
+      <div class="cert-icon">◈</div>
+      <div>
+        <div class="cert-name">Python for Data Science</div>
+        <div class="cert-org">NPTEL</div>
+      </div>
+    </div>
+    <div class="cert-item reveal">
+      <div class="cert-icon">◈</div>
+      <div>
+        <div class="cert-name">Python Frameworks and Flask for Web Applications</div>
+        <div class="cert-org">Udemy</div>
+      </div>
+    </div>
+    <div class="cert-item reveal">
+      <div class="cert-icon">◈</div>
+      <div>
+        <div class="cert-name">SAP Data Analytics — SAP Analytics Cloud</div>
+        <div class="cert-org">SAP</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Contact</div>
+  <h2 class="section-title">Let's Build Something</h2>
+  <p class="contact-sub">Open to internships, collaborations, and research opportunities.</p>
+  <div class="contact-links">
+    <a href="mailto:yaswantha370@gmail.com" class="contact-link">✉ yaswantha370@gmail.com</a>
+    <a href="tel:+917013213193" class="contact-link">📞 +91 7013213193</a>
+    <a href="https://www.linkedin.com/in/allumalla-yaswanth-a0a300287" target="_blank" class="contact-link">in LinkedIn</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Allumalla Yaswanth · Bengaluru, India</p>
+  <p>BTech ECE · DSATM · 2023–2027</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
